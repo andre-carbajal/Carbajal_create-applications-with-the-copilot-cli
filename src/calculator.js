@@ -8,6 +8,9 @@
  * - Subtraction (-): Subtract numbers
  * - Multiplication (×): Multiply two or more numbers
  * - Division (÷): Divide numbers with error handling for division by zero
+ * - Modulo (%): Calculate the remainder of a divided by b
+ * - Exponentiation (^): Raise base to the power of exponent
+ * - Square Root (√): Calculate the square root of a number
  */
 
 const readline = require('readline');
@@ -48,6 +51,27 @@ function divide(...numbers) {
   });
 }
 
+// Modulo operation
+function modulo(a, b) {
+  if (b === 0) {
+    throw new Error('Modulo by zero is not allowed');
+  }
+  return a % b;
+}
+
+// Power operation
+function power(base, exponent) {
+  return Math.pow(base, exponent);
+}
+
+// Square root operation
+function squareRoot(n) {
+  if (n < 0) {
+    throw new Error('Cannot calculate square root of a negative number');
+  }
+  return Math.sqrt(n);
+}
+
 function calculate(operation, numbers) {
   switch (operation) {
     case '+':
@@ -73,6 +97,30 @@ function calculate(operation, numbers) {
     case 'division':
       return divide(...numbers);
     
+    case '%':
+    case 'mod':
+    case 'modulo':
+      if (numbers.length !== 2) {
+        throw new Error('Modulo requires exactly 2 numbers');
+      }
+      return modulo(numbers[0], numbers[1]);
+    
+    case '^':
+    case 'pow':
+    case 'power':
+      if (numbers.length !== 2) {
+        throw new Error('Power requires exactly 2 numbers (base and exponent)');
+      }
+      return power(numbers[0], numbers[1]);
+    
+    case 'sqrt':
+    case 'squareroot':
+    case '√':
+      if (numbers.length !== 1) {
+        throw new Error('Square root requires exactly 1 number');
+      }
+      return squareRoot(numbers[0]);
+    
     default:
       throw new Error(`Unknown operation: ${operation}`);
   }
@@ -85,6 +133,9 @@ function displayMenu() {
   console.log('  - (Subtraction)');
   console.log('  × or * (Multiplication)');
   console.log('  ÷ or / (Division)');
+  console.log('  % or mod (Modulo)');
+  console.log('  ^ or pow (Power)');
+  console.log('  sqrt or √ (Square Root)');
   console.log('\nEnter operation and numbers (e.g., + 5 3 2)');
   console.log('Type "exit" to quit\n');
 }
@@ -143,5 +194,8 @@ module.exports = {
   subtract,
   multiply,
   divide,
+  modulo,
+  power,
+  squareRoot,
   calculate
 };
